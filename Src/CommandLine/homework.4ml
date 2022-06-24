@@ -1,0 +1,17 @@
+domain People
+{
+  Person ::= new (name: String).
+  Parent ::= new (parent: Person, child: Person).
+  conforms no { c | Parent(x, c), Parent(y, c), Parent(z, c), x != y, y != z }.
+}
+
+model Family of People
+{
+  p1 is Person("Elvis"),
+  p2 is Person("Joe"),
+  p3 is Person("Sally"),
+  p4 is Person("Susan").
+
+  Parent(p1, p4),
+  Parent(p2, p4).
+}
