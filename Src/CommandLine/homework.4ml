@@ -2,9 +2,12 @@ domain People
 {
   Person ::= new (name: String).
   Parent ::= new (parent: Person, child: Person).
-  conforms no { c | Parent(x, c), Parent(y, c), Parent(z, c), x != y, y != z }.
+  tooManyParents :- c is Person, count({ p | p is Parent(_, c) }) > 2.
+  conforms no tooManyParents.
 }
 
+/* qr Family People.conforms */
+/* qr  */
 model Family of People
 {
   p1 is Person("Elvis"),
