@@ -6,8 +6,8 @@ domain People
   conforms no tooManyParents.
 }
 
+/* should be true */
 /* qr Family People.conforms */
-/* qr  */
 model Family of People
 {
   p1 is Person("Elvis"),
@@ -17,4 +17,18 @@ model Family of People
 
   Parent(p1, p4),
   Parent(p2, p4).
+}
+
+/* should be false */
+/* qr BadFamily People.conforms */
+model BadFamily of People
+{
+  p1 is Person("Elvis"),
+  p2 is Person("Joe"),
+  p3 is Person("Sally"),
+  p4 is Person("Susan").
+
+  Parent(p1, p4),
+  Parent(p2, p4).
+  Parent(p3, p4).
 }
