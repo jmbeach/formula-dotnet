@@ -32,3 +32,20 @@ model BadFamily of People
   Parent(p2, p4).
   Parent(p3, p4).
 }
+
+domain AlgTrees
+{
+  Node ::= new (left: any Node + {NIL},
+    right: any Node + {NIL}).
+  Root ::= new (root: any Node).
+}
+
+model Fex' of AlgTrees
+{
+  Root(
+    Node(
+      Node(NIL, NIL),
+      Node(NIL, NIL)
+    )
+  ).
+}
