@@ -30,8 +30,8 @@ domain IsoDAGs extends Left::DAGs, Right::DAGs
 
 partial model PDAG of DAGs
 {
-  requires atleast 5 E.
-  requires atleast 5 V.
+   requires atleast 5 E.
+   requires atleast 5 V.
 }
 
 model LittleCycle of DAGs

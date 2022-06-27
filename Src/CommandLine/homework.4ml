@@ -38,8 +38,13 @@ domain AlgTrees
   Node ::= new (left: any Node + {NIL},
     right: any Node + {NIL}).
   Root ::= new (root: any Node).
+  edge ::= (Node, Node).
+  edge(a, b) :- b is Node, e is Node(_, b), e = a; a is Node, e is Node(_, a), e = b.
+  path ::= (Node, Node).
+  path(a, b) :- edge(a, b); edge(a, c), path(c, b).
 }
 
+/* qr Fex' AlgTrees.conforms */
 model Fex' of AlgTrees
 {
   Root(
