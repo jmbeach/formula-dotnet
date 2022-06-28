@@ -40,16 +40,12 @@ domain AlgTrees
   Root ::= new (root: any Node).
   isLength3 ::= (Root).
   isLength3(r) :- r is Root,
-    r.root.left != NIL,
     r.root.left.left != NIL;
     r is Root,
-    r.root.left != NIL,
     r.root.left.right != NIL;
     r is Root,
-    r.root.right != NIL,
     r.root.right.left != NIL;
     r is Root,
-    r.root.right != NIL,
     r.root.right.right != NIL.
   conforms no isLength3(_).
 }
