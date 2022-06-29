@@ -74,3 +74,36 @@ model BadFex of AlgTrees
     )
   ).
 }
+
+domain FSM
+{
+  State ::= (id: Integer).
+  DirectedTransition ::= (from: State, to: State).
+  InitialState ::= (s: State).
+  FinalState ::= (s: State).
+  hasInitialState :- count({ initState | initState is InitialState }) = 1.
+}
+
+/* should be false */
+/* qr NoInitialState FSM.conforms */
+model NoInitialState of FSM
+{
+  s is State(1).
+}
+
+/* should be false */
+/* qr MultipleInitialStates FSM.conforms */
+model MultipleInitialStates of FSM
+{
+  initState1 is InitialState(State(1)),
+  initState2 is InitialState(State(2)).
+}
+
+/* should be true */
+/* qr GoodFSM FSM.conforms */
+model GoodFSM of FSM
+{
+  s1 is State(1).
+
+  initState is InitialState(s1).
+}
