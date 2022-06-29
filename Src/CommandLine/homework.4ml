@@ -77,11 +77,12 @@ model BadFex of AlgTrees
 
 domain FSM
 {
-  State ::= (id: Integer).
-  DirectedTransition ::= (from: State, to: State).
-  InitialState ::= (s: State).
-  FinalState ::= (s: State).
+  State ::= new (id: Integer).
+  DirectedTransition ::= new (from: State, to: State).
+  InitialState ::= new (s: State).
+  FinalState ::= new (s: State).
   hasInitialState :- count({ initState | initState is InitialState }) = 1.
+  conforms hasInitialState.
 }
 
 /* should be false */
