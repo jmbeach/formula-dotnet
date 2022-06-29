@@ -78,16 +78,19 @@ model BadFex of AlgTrees
 domain FSM
 {
   State ::= new (id: Integer).
-  DirectedTransition ::= new (from: State + InitialState, to: State + FinalState).
+  DirectedTransition ::= new (from: State, to: State).
   InitialState ::= new (s: State).
   FinalState ::= new (s: State).
   hasInitialState :- count({ initState | initState is InitialState }) = 1.
-  path ::= (State + InitialState, State + FinalState).
+  path ::= (State, State).
   path(a, b) :- DirectedTransition(a, b);
     DirectedTransition(a, x), path(x, b).
-  hasFullPath :- a is InitialState, b is FinalState, path(a, b).
+  hasFullPath :- a is InitialState, b is FinalState, path(a.s, b.s).
+  noOrphans :- a is InitialState,
+    count({ b | b is State, path(a.s, b) }) = count({ c | c is State }) - 1.
   conforms hasInitialState.
   conforms hasFullPath.
+  conforms noOrphans.
 }
 
 /* should be false */
@@ -105,11 +108,42 @@ model MultipleInitialStates of FSM
   initState2 is InitialState(State(2)).
 }
 
+/* should be false */
+/* qr NoPathToEndState FSM.conforms */
+model NoPathToEndState of FSM
+{
+  s1 is State(1),
+  s2 is State(2).
+
+  initState is InitialState(s1),
+  endState is FinalState(s2).
+}
+
+/* should be false */
+/* qr HasOrphans FSM.conforms */
+model HasOrphans of FSM
+{
+  s1 is State(1),
+  s2 is State(2),
+  s3 is State(3).
+
+  initState is InitialState(s1),
+  endState is FinalState(s2).
+
+  t1 is DirectedTransition(s1, s2).
+}
+
 /* should be true */
 /* qr GoodFSM FSM.conforms */
 model GoodFSM of FSM
 {
-  s1 is State(1).
+  s1 is State(1),
+  s2 is State(2),
+  s3 is State(3).
 
-  initState is InitialState(s1).
+  initState is InitialState(s1),
+  endState is FinalState(s2).
+
+  t1 is DirectedTransition(s1, s2),
+  t2 is DirectedTransition(s1, s3).
 }
