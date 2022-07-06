@@ -38,29 +38,17 @@ domain AlgTrees
   Node ::= new (left: any Node + {NIL},
     right: any Node + {NIL}).
   Root ::= new (root: any Node).
-  isLength3 ::= (Root).
-  isLength3(r) :-
-    r is Root,
-    r.root.left.left.left != NIL;
-    r is Root,
-    r.root.left.left.right != NIL;
-    r is Root,
-    r.root.left.right.left != NIL;
-    r is Root,
-    r.root.left.right.right != NIL;
-    r is Root,
-    r.root.right.left.left != NIL;
-    r is Root,
-    r.root.right.left.right != NIL;
-    r is Root,
-    r.root.right.right.left != NIL;
-    r is Root,
-    r.root.right.right.right != NIL.
-  conforms no isLength3(_).
+  edge ::= (Node, Node).
+  edge(a, b) :- a is Node, b is Node, a.left = b; a is Node, b is Node, a.right = b.
+  length ::= (Node, Node, Integer).
+  length(a, b, d) :- edge(a, b), d = 1.
+  length(a, b, d) :- length(a, c, x), edge(c, b), d = x + 1.
+  isLength3 :- length(_, _, 3).
+  conforms no isLength3.
 }
 
 /* should be true */
-/* qr Fex' AlgTrees.conforms */
+/* qr GoodFex AlgTrees.conforms */
 model GoodFex of AlgTrees
 {
   Root(
