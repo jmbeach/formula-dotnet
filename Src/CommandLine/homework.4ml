@@ -39,7 +39,9 @@ domain AlgTrees
     right: any Node + {NIL}).
   Root ::= new (root: any Node).
   edge ::= (Node, Node).
-  edge(a, b) :- a is Node, b is Node, a.left = b; a is Node, b is Node, a.right = b.
+  edge(a, b) :-
+    a is Node, b is Node, a.left = b;
+    a is Node, b is Node, a.right = b.
   length ::= (Node, Node, Integer).
   length(a, b, d) :- edge(a, b), d = 1.
   length(a, b, d) :- length(a, c, x), edge(c, b), d = x + 1.
