@@ -39,20 +39,29 @@ domain AlgTrees
     right: any Node + {NIL}).
   Root ::= new (root: any Node).
   isLength3 ::= (Root).
-  isLength3(r) :- r is Root,
-    r.root.left.left != NIL;
+  isLength3(r) :-
     r is Root,
-    r.root.left.right != NIL;
+    r.root.left.left.left != NIL;
     r is Root,
-    r.root.right.left != NIL;
+    r.root.left.left.right != NIL;
     r is Root,
-    r.root.right.right != NIL.
+    r.root.left.right.left != NIL;
+    r is Root,
+    r.root.left.right.right != NIL;
+    r is Root,
+    r.root.right.left.left != NIL;
+    r is Root,
+    r.root.right.left.right != NIL;
+    r is Root,
+    r.root.right.right.left != NIL;
+    r is Root,
+    r.root.right.right.right != NIL.
   conforms no isLength3(_).
 }
 
 /* should be true */
 /* qr Fex' AlgTrees.conforms */
-model Fex' of AlgTrees
+model GoodFex of AlgTrees
 {
   Root(
     Node(
@@ -62,17 +71,27 @@ model Fex' of AlgTrees
   ).
 }
 
+/* should be true */
+/* qr FineFex AlgTrees.conforms */
+model FineFex of AlgTrees
+{
+  a is Node(NIL, NIL),
+  b is  Node(a, NIL),
+  c is Node(NIL, NIL),
+  d is Node(b, c).
+  Root(d).
+}
+
 /* should be false */
 /* qr BadFex AlgTrees.conforms */
 model BadFex of AlgTrees
 {
-  Root(
-    Node(
-      Node(
-        Node(NIL, NIL), NIL),
-      Node(NIL, NIL)
-    )
-  ).
+  x is Node(NIL, NIL),
+  a is Node(x, NIL),
+  b is  Node(a, NIL),
+  c is Node(NIL, NIL),
+  d is Node(b, c).
+  Root(d).
 }
 
 domain FSM
